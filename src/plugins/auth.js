@@ -6,7 +6,7 @@
 
 import { getUserByEmail, createUser } from "../services/auth.js";
 
-async function routes (fastify, options) {
+async function AuthRoute (fastify, options) {
   const dbConnection = await fastify.mysql.getConnection();
   fastify.post('/register', async (request, reply) => {
     const { email, apellido, nombre } = request.body;
@@ -29,4 +29,4 @@ async function routes (fastify, options) {
 }
 
 //ESM
-export default routes;
+export default AuthRoute;

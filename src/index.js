@@ -1,4 +1,5 @@
 import authRoute from './plugins/auth.js'
+import linksRoute from './plugins/links.js'
 import dbConnection from './plugins/dbConnection.js'
 /**
  * setup some routes
@@ -11,6 +12,7 @@ export default async function (fastify, opts) {
 
   //Routes
   fastify.register(authRoute, { prefix: '/api/auth' })
+  fastify.register(linksRoute, { prefix: '/api/links' })
   
   fastify.get('/api', async (request, reply) => {
     return { hello: 'world!' }
