@@ -15,3 +15,11 @@ export const createLinkForUser = async (connection, link, host, userId) => {
   )
   return shortUrl;
 }
+
+
+export const redirectLink = async (connection, url) => {
+  const [rows] = await connection.query(
+    `SELECT url_original FROM links WHERE url_acortada = ?`, [url]
+  )
+  return rows[0];
+}
