@@ -16,10 +16,26 @@ export const createLinkForUser = async (connection, link, host, userId) => {
   return shortUrl;
 }
 
+export const createLink = async (connection, link, host) => {
+  const hash = uuidv4();
+  const shortUrl = `${host}/t/${hash.substring(0, 7)}`;
+  await connection.query(
+    `INSERT INTO temp_links (url_original, url_acortada, fecha_expiracion) VALUES (?, ?, ?)`, [link, shortUrl, '2024-12-31 23:59:59']
+  )
+  return shortUrl;
+}
+
 
 export const redirectLink = async (connection, url) => {
   const [rows] = await connection.query(
     `SELECT url_original FROM links WHERE url_acortada = ?`, [url]
+  )
+  return rows[0];
+}
+
+export const redirectTemporaryLink = async (connection, url) => {
+  const [rows] = await connection.query(
+    `SELECT url_original FROM temp_links WHERE url_acortada = ?`, [url]
   )
   return rows[0];
 }

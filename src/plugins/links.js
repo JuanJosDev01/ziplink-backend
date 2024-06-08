@@ -1,5 +1,5 @@
 
-import { createLinkForUser, getLinksByUser } from '../services/links.js'
+import { createLink, createLinkForUser, getLinksByUser } from '../services/links.js'
 
 /**
  * 
@@ -18,5 +18,12 @@ async function LinkRoute(fastify, opts) {
     const newUrl = await createLinkForUser(dbConnection, url, request.protocol + "://" + request.headers.host, userId)
     return reply.code(201).send({ new_url: newUrl })
   })
+
+  fastify.post('/create-temporary', async (request, reply) => {
+    const { url } = request.body
+    const newUrl = await createLink(dbConnection, url, request.protocol + "://" + request.headers.host)
+    return reply.code(201).send({ new_url: newUrl })
+  })
+
 }
 export default LinkRoute
